@@ -6,7 +6,7 @@ LC1:
 LC2:
 	.ascii "The result is: \0"
 LC3:
-	.ascii "%c\0"
+	.ascii "%c"
 PC0:
     .ascii "Enter the char: \0"
 
@@ -59,19 +59,29 @@ L2:
 	movl	$0, %ebx					# initial or ebx =0, we make ebx to zero to use it again, as an initial value of loop
 	jmp		L4
 L5:
-	movl	8(%esp,%ebx,1), %eax		#\ body of for-loop
-	cmpl 	%eax, %edi
-	je 	.done
 
-	movl	%eax, (%esp)			#/
+	movl	$0, %eax
+	movl 	$0, %edi
+	movb 	8(%esp,%ebx,1), %al		#\ body of for-loop
+	#movl	8(%esp), %eax 	#tmp line
+	movb	24(%esp), %cl #move x to edi
+	cmpl 	%ecx, %eax
+	je 	L6
+
+	movl	%ecx, (%esp)			#/
 	call	_putchar					#/ print out charachter by character from the array
+
+	
+
+
+
 
 	addl	$1, %ebx					# UPDATE VALUE OF LOOP
 L4:
 	cmpl	$6, %ebx					# array of 7 elements
-	jle		L5							# test or CONDITION OF FOR-LOOP, 
+	jle	L5							# test or CONDITION OF FOR-LOOP, 
 
-.done:									# end of program an done
+L6:									# end of program an done
 	movl	$0, %eax
 	
 	andl	$32, %esp
