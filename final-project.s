@@ -30,7 +30,7 @@ _main:
 	jmp		L2
 L3:
 	leal	8(%esp,%ebx,1), %eax		# Get current array index
-	movl	%eax, 4(%esp)				# Store that index in esp
+	movl	%eax, 4(%esp)				# Store that index in 4+esp
 	movl	$LC1, (%esp)   				# get charachter by character and stored in an array %c\0
 	call	_scanf
 	
@@ -41,15 +41,15 @@ L2:
 	jle		L3							# condition of for loop, if le jump to L3 to create a loop to read the input 
 
 
-    # Grab extra character
-    movl $PC0, (%esp) # print PCO message
-    call _puts
+    	# Grab extra character
+    	movl $PC0, (%esp) # print PCO message
+	call _puts
 
-    leal 24(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
-    movl %eax, 4(%esp) # move eax to address of 4 + esp
-    movl $LC3, (%esp) # scanf 
-    call _scanf
-    movl 24(%esp), %edx #move x to edi
+  	leal 24(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
+  	movl %eax, 4(%esp) # move eax to address of 4 + esp
+  	movl $LC3, (%esp) # scanf 
+  	call _scanf
+  	movl 24(%esp), %edi #move x to edi
 
 
 	#movl	$LC2, (%esp)				# Print out the input name, with the size of 7 characters
@@ -60,7 +60,7 @@ L2:
 	jmp		L4
 L5:
 	movl	8(%esp,%ebx,1), %eax		#\ body of for-loop
-	cmpb 	%dl, %al
+	cmpl 	%eax, %edi
 	je 	.done
 
 	movl	%eax, (%esp)			#/
