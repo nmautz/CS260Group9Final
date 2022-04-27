@@ -65,10 +65,10 @@ L5:
 	movb 	8(%esp,%ebx,1), %al		#\ body of for-loop
 	#movl	8(%esp), %eax 	#tmp line
 	movb	24(%esp), %cl #move x to edi
-	cmpl 	%ecx, %eax
+	cmpb 	%cl, %al
 	je 	L6
 
-	movl	%ecx, (%esp)			#/
+	movl	%eax, (%esp)			#/
 	call	_putchar					#/ print out charachter by character from the array
 
 	
