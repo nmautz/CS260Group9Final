@@ -22,21 +22,18 @@ _main:
 	
 	subl	$32, %esp
 	
-	movl	$LC0, (%esp) 				#Enter your name:
+	movl	$LC0, (%esp) 				#Enter your sentance:
 	call	_printf
 	
 	# for loop to read the input of 7 characters      for (Init; Test; Update)     Body
 	movl	$0, %ebx					# initial of for-loop to fill an array of 7 elements, initial value of loop
 	jmp		L2
 L3:
-	leal	8(%esp,%ebx,4), %eax		# Get current array index
+	leal	8(%esp,%ebx,1), %eax		# Get current array index
 	movl	%eax, 4(%esp)				# Store that index in esp
 	movl	$LC1, (%esp)   				# get charachter by character and stored in an array %c\0
 	call	_scanf
 	
-#    leal	8(%esp,%ebx,4), %eax		# Get current array index
- #   cmpl    $10, (%eax) 
-  #  je      LI3
 
 	addl	$1, %ebx					# update of for loop 
 L2:
@@ -48,24 +45,27 @@ L2:
     movl $PC0, (%esp) # print PCO message
     call _puts
 
-    leal 16(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
+    leal 24(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
     movl %eax, 4(%esp) # move eax to address of 4 + esp
     movl $LC3, (%esp) # scanf 
     call _scanf
-    movl 16(%esp), %edi
+    movl 24(%esp), %edx #move x to edi
 
 
-	movl	$LC2, (%esp)				# Print out the input name, with the size of 7 characters
-	call	_printf
+	#movl	$LC2, (%esp)				# Print out the input name, with the size of 7 characters
+	#call	_printf
 	# for loop to print out			for (Init; Test; Update)     Body
 
 	movl	$0, %ebx					# initial or ebx =0, we make ebx to zero to use it again, as an initial value of loop
 	jmp		L4
 L5:
-	movl	8(%esp,%ebx,4), %eax		#\ body of for-loop
-	movl	%eax, (%esp)				#/
+	movl	8(%esp,%ebx,1), %eax		#\ body of for-loop
+	cmpb 	%dl, %al
+	je 	.done
+
+	movl	%eax, (%esp)			#/
 	call	_putchar					#/ print out charachter by character from the array
-	
+
 	addl	$1, %ebx					# UPDATE VALUE OF LOOP
 L4:
 	cmpl	$6, %ebx					# array of 7 elements
