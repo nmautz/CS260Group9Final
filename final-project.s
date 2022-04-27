@@ -5,7 +5,27 @@ LC1:
 	.ascii "%c\0"
 LC2:
 	.ascii "The result is: \0"
-LC3:
+LC23:
+	.ascii "The result is: %c\n\0"
+LC24:
+	.ascii "The result is: %c\0"
+LC25:
+	.ascii "The result is: %c\0"
+LC26:
+	.ascii "The result is: %c\0"
+LC27:
+	.ascii "The result is: %c\0"
+LC28:
+	.ascii "The result is: %c\0"
+LC29:
+	.ascii "The result is: %c\0"
+LC2a:
+	.ascii "The result is: %c\0"
+LC2n:
+	.ascii "The result is: %c\0"
+LC2s:
+	.ascii "The result is: %c\0"
+LC3j:
 	.ascii "%c\0"
 PC0:
     .ascii "Enter the char: \0"
@@ -20,9 +40,19 @@ _main:
 	
 	pushl	%ebp					# save value of esp inside the stack
 	
-	subl	$32, %esp
+	subl	$64, %esp
+
+	# Grab extra character
+    movl $PC0, (%esp) # print PCO message
+    call _puts
+
+    leal 40(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
+    movl %eax, 4(%esp) # move eax to address of 4 + esp
+    movl $LC1, (%esp) # scanf 
+    call _scanf
+    
 	
-	movl	$LC0, (%esp) 				#Enter your name:
+	movl	$LC0, (%esp) 				# Enter your name:
 	call	_printf
 	
 	# for loop to read the input of 7 characters      for (Init; Test; Update)     Body
@@ -44,15 +74,8 @@ L2:
 	jle		L3							# condition of for loop, if le jump to L3 to create a loop to read the input 
 
 
-    # Grab extra character
-    movl $PC0, (%esp) # print PCO message
-    call _puts
 
-    leal 16(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
-    movl %eax, 4(%esp) # move eax to address of 4 + esp
-    movl $LC3, (%esp) # scanf 
-    call _scanf
-    movl 16(%esp), %edi
+
 
 
 	movl	$LC2, (%esp)				# Print out the input name, with the size of 7 characters
@@ -66,6 +89,19 @@ L5:
 	movl	%eax, (%esp)				#/
 	call	_putchar					#/ print out charachter by character from the array
 	
+	movl	8(%esp,%ebx,4), %ecx
+	# movl 40(%esp), %ecx
+	movl	%ecx, 4(%esp)	# ebx to the address of 4+%esp for printing
+	movl	$LC23, (%esp)	# print The shift of the x number with n shift %d \12\0
+	call	_printf
+
+	# Check if value is the char
+	movl	8(%esp,%ebx,4), %eax
+	
+	movl 40(%esp), %ecx
+	cmpl	%eax, %ecx
+	je		.done
+
 	addl	$1, %ebx					# UPDATE VALUE OF LOOP
 L4:
 	cmpl	$6, %ebx					# array of 7 elements
