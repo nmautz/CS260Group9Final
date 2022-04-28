@@ -20,36 +20,36 @@ _main:
 	
 	pushl	%ebp					# save value of esp inside the stack
 	
-	subl	$32, %esp
+	subl	$512, %esp
 	
 	movl	$LC0, (%esp) 				#Enter your sentance:
 	call	_printf
 	
 	# for loop to read the input of 7 characters      for (Init; Test; Update)     Body
 	movl	$0, %ebx					# initial of for-loop to fill an array of 7 elements, initial value of loop
-	jmp		L2
 L3:
-	leal	8(%esp,%ebx,1), %eax		# Get current array index
+	leal	9(%esp,%ebx,1), %eax		# Get current array index
 	movl	%eax, 4(%esp)				# Store that index in 4+esp
 	movl	$LC1, (%esp)   				# get charachter by character and stored in an array %c\0
 	call	_scanf
-	
 
+	leal	9(%esp,%ebx,1), %eax
+	movb	(%eax), %al
 	addl	$1, %ebx					# update of for loop 
 L2:
-	cmpl	$6, %ebx					# index of array 
-	jle		L3							# condition of for loop, if le jump to L3 to create a loop to read the input 
+	cmpb	$10, %al					# Check if new line (0xA = $10 = '/n')
+	jne		L3				# condition of for loop, if le jump to L3 to create a loop to read the input 
 
 
     	# Grab extra character
     	movl $PC0, (%esp) # print PCO message
 	call _puts
 
-  	leal 24(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
+  	leal 8(%esp), %eax # prepare stack ptr to save x at address 16+esp and move to eax
   	movl %eax, 4(%esp) # move eax to address of 4 + esp
   	movl $LC3, (%esp) # scanf 
   	call _scanf
-  	movl 24(%esp), %edi #move x to edi
+  	movl 8(%esp), %edi #move x to edi
 
 
 	#movl	$LC2, (%esp)				# Print out the input name, with the size of 7 characters
@@ -60,15 +60,15 @@ L2:
 	jmp		L4
 L5:
 
-	movb 	8(%esp,%ebx,1), %al		#move sentence(i) to %eax
+	movb 	9(%esp,%ebx,1), %al		#move sentence(i) to %eax
 
 
 	movl	%eax, (%esp)			#/
 	call	_putchar					#/ print out charachter by character from the array
 
 
-	movb 	8(%esp,%ebx,1), %al		#move sentence(i) to %eax (%al)
-	movb	24(%esp), 	%cl		#move x to %ecx (%cl)
+	movb 	9(%esp,%ebx,1), %al		#move sentence(i) to %eax (%al)
+	movb	8(%esp), 	%cl		#move x to %ecx (%cl)
 
 
 	cmpb 	%cl, %al
@@ -76,16 +76,17 @@ L5:
 
 
 
-
+	leal	9(%esp,%ebx,1), %eax
+	movb	(%eax), %al
 	addl	$1, %ebx					# UPDATE VALUE OF LOOP
-L4:
-	cmpl	$6, %ebx					# array of 7 elements
-	jle	L5							# test or CONDITION OF FOR-LOOP, 
+L4:	
+	cmpb	$10, %al					# Check if new line (0xA = $10 = '/n')
+	jne	L5						# test or CONDITION OF FOR-LOOP, 
 
 L6:									# end of program an done
 	movl	$0, %eax
 	
-	andl	$32, %esp
+	andl	$512, %esp
 	
 	leave
 	ret
