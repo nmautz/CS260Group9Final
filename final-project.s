@@ -20,7 +20,7 @@ _main:
 	
 	pushl	%ebp					# save value of esp inside the stack
 	
-	subl	$32, %esp
+	subl	$512, %esp
 	
 	movl	$LC0, (%esp) 				#Enter your sentance:
 	call	_printf
@@ -85,7 +85,7 @@ L4:
 L6:									# end of program an done
 	movl	$0, %eax
 	
-	andl	$32, %esp
+	andl	$512, %esp
 	
 	leave
 	ret
