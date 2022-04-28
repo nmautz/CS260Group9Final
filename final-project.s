@@ -76,11 +76,12 @@ L5:
 
 
 
-
+	leal	9(%esp,%ebx,1), %eax
+	movb	(%eax), %al
 	addl	$1, %ebx					# UPDATE VALUE OF LOOP
-L4:
-	cmpl	$6, %ebx					# array of 7 elements
-	jle	L5							# test or CONDITION OF FOR-LOOP, 
+L4:	
+	cmpb	$10, %al					# Check if new line (0xA = $10 = '/n')
+	jne	L5						# test or CONDITION OF FOR-LOOP, 
 
 L6:									# end of program an done
 	movl	$0, %eax
