@@ -27,18 +27,18 @@ _main:
 	
 	# for loop to read the input of 7 characters      for (Init; Test; Update)     Body
 	movl	$0, %ebx					# initial of for-loop to fill an array of 7 elements, initial value of loop
-	jmp		L2
 L3:
 	leal	9(%esp,%ebx,1), %eax		# Get current array index
 	movl	%eax, 4(%esp)				# Store that index in 4+esp
 	movl	$LC1, (%esp)   				# get charachter by character and stored in an array %c\0
 	call	_scanf
-	
 
+	leal	9(%esp,%ebx,1), %eax
+	movb	(%eax), %al
 	addl	$1, %ebx					# update of for loop 
 L2:
-	cmpl	$6, %ebx					# index of array 
-	jle		L3							# condition of for loop, if le jump to L3 to create a loop to read the input 
+	cmpb	$10, %al					# Check if new line (0xA = $10 = '/n')
+	jne		L3				# condition of for loop, if le jump to L3 to create a loop to read the input 
 
 
     	# Grab extra character
