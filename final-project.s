@@ -60,18 +60,19 @@ L2:
 	jmp		L4
 L5:
 
-	movl	$0, %eax
-	movl 	$0, %edi
-	movb 	8(%esp,%ebx,1), %al		#\ body of for-loop
-	#movl	8(%esp), %eax 	#tmp line
-	movb	24(%esp), %cl #move x to edi
-	cmpb 	%cl, %al
-	je 	L6
+	movb 	8(%esp,%ebx,1), %al		#move sentence(i) to %eax
+
 
 	movl	%eax, (%esp)			#/
 	call	_putchar					#/ print out charachter by character from the array
 
-	
+
+	movb 	8(%esp,%ebx,1), %al		#move sentence(i) to %eax (%al)
+	movb	24(%esp), 	%cl		#move x to %ecx (%cl)
+
+
+	cmpb 	%cl, %al
+	je 	L6 			#jump to end after printing desired char
 
 
 
