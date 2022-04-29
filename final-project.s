@@ -31,7 +31,7 @@ _main:
 	
 	movl	$LC0, (%esp) 			# print Enter your sentence:
 	call	_printf
-	
+		
 	# for loop to read the input of up to 503 characters      for (Init; Test; Update)     Body
 
 
@@ -40,7 +40,7 @@ _main:
 L3:
 	leal	9(%esp,%ebx,1), %eax		# Get current array index
 	movl	%eax, 4(%esp)			# Store that index in 4+esp
-	movl	$LC1, (%esp)   			# get charachter by character and stored in an array with %c\0
+	movl	$LC1, (%esp)   			# get character by character and stored in an array with %c\0
 	call	_scanf
 
 	leal	9(%esp,%ebx,1), %eax		# Get the current array index again
@@ -71,7 +71,7 @@ L5:
 						# aka eax = sentence(i)
 
 	movl	%eax, (%esp)			# move eax to esp for printing
-	call	_putchar			# print out charachter by character from the array
+	call	_putchar			# print out character by character from the array
 
 
 	movb 	9(%esp,%ebx,1), %al		# move sentence(i) to %eax (%al)
